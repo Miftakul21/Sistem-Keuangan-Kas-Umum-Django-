@@ -1,0 +1,44 @@
+{% extends 'layouts/template.html' %} {% block title %} Add Buku Keuangan {% endblock %} {% block content %}
+
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+  <h1 class="h3 mb-0 text-gray-800">Add Buku Keuangan</h1>
+  <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
+</div>
+
+<div class="row">
+  <div class="col-xl-8 offset-xl-2">
+    <div class="card">
+      <div class="card-header">
+        <h5>Form Buku Keuangan</h5>
+      </div>
+      <div class="card-body">
+        <form action="" method="POST">
+          {% csrf_token %}
+          <div class="mb-3 row">
+            <label for="tanggal" class="col-sm-2 col-form-label">Tanggal</label>
+            <div class="col-sm-10">{{ form.tanggal }}</div>
+          </div>
+          <div class="mb-3 row">
+            <label for="keterangan" class="col-sm-2 col-form-label">Keterangan Buku Kas</label>
+            <div class="col-sm-10">{{ form.keterangan_kas }}</div>
+          </div>
+          <div class="mb-3 row">
+            <label for="saldo" class="col-sm-2 col-form-label">Saldo</label>
+            <div class="col-sm-10">{{ form.saldo }}</div>
+          </div>
+          <div class="mb-3 row">
+            <label for="debet" class="col-sm-2 col-form-label">Debet</label>
+            <div class="col-sm-10">{{ form.debet }}</div>
+          </div>
+          <div class="mt-4 d-flex align-items-center">
+            <a href="{% url 'buku' %}" class="btn btn-secondary mr-3">Batal</a>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

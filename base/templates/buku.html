@@ -1,0 +1,61 @@
+{% extends 'layouts/template.html' %}{% block title %}Buku Kas{% endblock %}{% block content %}
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+  <h1 class="h3 mb-0 text-gray-800">User</h1>
+  <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
+</div>
+
+{% if messages %} {% for message in messages %}
+<div class="col-xl-12 col-md-12">
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>{{ message }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>
+{% endfor %} {% endif %}
+
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5>Data Buku Kas Umum</h5>
+        <a href="{% url 'add_buku' %}" class="btn btn-primary"><i class="fas fa-plus mr-2"></i>Add Data</a>
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table table-borderd table-hover" id="dataTable" cellspacing="0">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>User</th>
+              <th>Keterangan Buku Kas</th>
+              <th>Tanggal</th>
+              <th>Saldo</th>
+              <th>Debet</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for buku_kas in buku_kas %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ buku_kas.user.first_name }} {{ buku_kas.user.last_name }}</td>
+              <td>{{ buku_kas.keterangan_kas }}</td>
+              <td>{{ buku_kas.tanggal|date:'Y-m-d' }}</td>
+              <td>{% if buku_kas.saldo is not None %} Rp. {{ buku_kas.saldo }} {% endif %}</td>
+              <td>{% if buku_kas.debet is not None %} Rp. {{ buku_kas.debet }} {% endif %}</td>
+              <td>
+                <a href="{% url 'delete_buku' buku_kas.id %}" class="btn btn-danger {% if request.user.role != buku_kas.user.role %} disabled {% endif %}"><i class="fas fa-trash"></i></a>
+                <a href="{% url 'edit_buku' buku_kas.id %}" class="btn btn-warning {% if request.user.role != buku_kas.user.role %} disabled {% endif %}"><i class="fas fa-edit"></i></a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

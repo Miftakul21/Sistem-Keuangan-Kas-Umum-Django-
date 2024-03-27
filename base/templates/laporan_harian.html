@@ -1,0 +1,78 @@
+{% extends 'layouts/template.html' %}{% block title %}Laporan Harian{% endblock %}{% block content %}
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+  <h1 class="h3 mb-0 text-gray-800">Laporan Harian</h1>
+  <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
+</div>
+
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-header text-primary d-flex justify-content-between align-items-center">
+        <h5 class="font-weight-bolder">Laporan Buku Kas Harian</h5>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filterTanggal"><i class="fas fa-solid fa-filter"></i> Pilih Tanggal</button>
+      </div>
+      <div class="card-body">
+        <table class="table table-borderd table-hover" id="dataTable" cellspacing="0">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Tanggal</th>
+              <th>Uraian Kas</th>
+              <th>Saldo</th>
+              <th>Debet</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for buku_kas in buku.data %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ buku_kas.tanggal|date:'Y-m-d' }}</td>
+              <td>{{ buku_kas.keterangan_kas }}</td>
+              <td>{% if buku_kas.saldo is not None %}Rp. {{ buku_kas.saldo }}{% endif %}</td>
+              <td>{% if buku_kas.debet is not None %}Rp. {{ buku_kas.debet }}{% endif %}</td>
+              <td>Rp. {{ buku_kas.total }}</td>
+            </tr>
+            {% endfor %}
+
+            <tr>
+              <td colspan="3" class="font-weight-bolder" style="color: #000">Jumlah</td>
+              <td class="font-weight-bolder" style="color: #000">Rp.{{ buku.total_saldo }}</td>
+              <td class="font-weight-bolder" style="color: #000">Rp.{{ buku.total_debet }}</td>
+              <td class="font-weight-bolder" style="color: #000"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="filterTanggal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="" method="POST">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-12">
+              <label for="tanggal" class="font-weight-bold">Tanggal</label>
+              <input type="date" name="tanggal" class="form-control" id="tanggal" />
+              <button type="submit" class="btn btn-primary mt-4">Pilih</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
